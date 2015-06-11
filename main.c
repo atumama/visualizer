@@ -160,6 +160,44 @@ void queue_str_task2(void *pvParameters)
 {
 	queue_str_task("Hello 2\n\r", 50);
 }
+int inrecur_fibo(int num)   // inrecursive fib
+{
+	int i=0;
+ 	int a=0, b=1, c=1;
+ 	for(i=0; i<num; i++){
+ 		c = a+b;
+ 		b= a;
+ 		a = c;
+	 }
+	 return c;
+}
+
+int recur_fibo(int num)  // recursive fib
+{
+ 	if(num<=0){
+ 		return 0;
+ 	}else if(num == 1){
+ 		return 1;
+ 	}else{
+ 		return recur_fibo(num-1) + recur_fibo(num-2);
+ 	}
+}
+
+void Task1(void *pvParameters)
+{
+	int i;
+ 	queue_str_task("i_fib_task\n\r", 200);
+ 	inrecur_fibo(30);
+ 	
+}
+void Task2(void *pvParameters)
+{
+ 	int i;
+ 	queue_str_task("r_fib_task\n\r", 200);
+ 	recur_fibo(30);
+ 	
+}
+
 
 void serial_readwrite_task(void *pvParameters)
 {
@@ -235,11 +273,20 @@ int main()
 	            (signed portCHAR *) "Serial Write 2",
 	            512 /* stack size */,
 	            NULL, tskIDLE_PRIORITY + 10, NULL);
+	xTaskCreate(Task1,
+ 		(signed portCHAR *) "inrecur_fib",
+ 		512 /* stack size */, NULL,
+ 		tskIDLE_PRIORITY + 4, NULL);
+ 	xTaskCreate(Task2,
+ 		(signed portCHAR *) "recur_fib",
+ 		512 /* stack size */, NULL,
+ 		tskIDLE_PRIORITY + 4, NULL);
 
 	/* Create a task to write messages from the queue to the RS232 port. */
 	xTaskCreate(rs232_xmit_msg_task,
 	            (signed portCHAR *) "Serial Xmit Str",
 	            512 /* stack size */, NULL, tskIDLE_PRIORITY + 2, NULL);
+
 
 	/* Create a task to receive characters from the RS232 port and echo
 	 * them back to the RS232 port. */
@@ -247,6 +294,7 @@ int main()
 	            (signed portCHAR *) "Serial Read/Write",
 	            512 /* stack size */, NULL,
 	            tskIDLE_PRIORITY + 10, NULL);
+	
 
 	/* Start running the tasks. */
 	vTaskStartScheduler();
