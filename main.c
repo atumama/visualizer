@@ -185,14 +185,14 @@ int recur_fibo(int num)  // recursive fib
 
 void Task1(void *pvParameters)
 {
-	int i;
+	
  	queue_str_task("i_fib_task\n\r", 200);
- 	inrecur_fibo(30);
- 	
+ 	//inrecur_fibo(30);
+ 	while(1);
 }
 void Task2(void *pvParameters)
 {
- 	int i;
+ 	
  	queue_str_task("r_fib_task\n\r", 200);
  	recur_fibo(30);
  	
