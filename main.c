@@ -160,17 +160,6 @@ void queue_str_task2(void *pvParameters)
 {
 	queue_str_task("Hello 2\n\r", 50);
 }
-int inrecur_fibo(int num)   // inrecursive fib
-{
-	int i=0;
- 	int a=0, b=1, c=1;
- 	for(i=0; i<num; i++){
- 		c = a+b;
- 		b= a;
- 		a = c;
-	 }
-	 return c;
-}
 
 int recur_fibo(int num)  // recursive fib
 {
@@ -186,8 +175,7 @@ int recur_fibo(int num)  // recursive fib
 void Task1(void *pvParameters)
 {
 	
- 	queue_str_task("i_fib_task\n\r", 200);
- 	//inrecur_fibo(30);
+ 	queue_str_task("do while\n\r", 200);
  	while(1);
 }
 void Task2(void *pvParameters)
@@ -274,7 +262,7 @@ int main()
 	            512 /* stack size */,
 	            NULL, tskIDLE_PRIORITY + 10, NULL);
 	xTaskCreate(Task1,
- 		(signed portCHAR *) "inrecur_fib",
+ 		(signed portCHAR *) "do while",
  		512 /* stack size */, NULL,
  		tskIDLE_PRIORITY + 4, NULL);
  	xTaskCreate(Task2,
