@@ -19,7 +19,6 @@ mutexes = {}
 all_queues = {}
 binsems = {}
 queues = {}
-context_switch_record= []
 context_switch_io = open('context_time.txt', 'w')
 
 for line in lines :
@@ -38,6 +37,7 @@ for line in lines :
 		tasks[id] = task
 		
 	elif inst == 'switch' :
+		
 		out_task, in_task, tick, tick_reload, out_minitick, in_minitick = args.split(' ')
 		
 		out_time = (float(tick) + (float(tick_reload) - float(out_minitick)) / float(tick_reload)) / 100 * 1000;
@@ -58,11 +58,10 @@ for line in lines :
 
 		last_task = in_task
 
-		context_switch_time= {}
-		context_switch_time['type'] = 'context switch time'
- 		context_switch_time['time'] = in_time - out_time
-		context_switch_record.append(context_switch_time);
-		context_switch_io.write('Context switch time: %f ms\n' % (context_switch_time['time']))
+		context_switch = {}
+		context_switch['type'] = 'context_switch'
+		context_switch['time']= in_time - out_time
+		context_switch_io.write('Context switch time: %f ms\n' % (context_switch['time']))
 	elif inst == 'mutex' and TRACE_MUTEX :
 		task, id = args.split(' ')
 		mutex = {}
